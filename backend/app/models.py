@@ -14,3 +14,5 @@ class Feedback(Base):
     user_id = Column(String, nullable=True)
     created_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=sa.func.now())
     updated_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=sa.func.now(), onupdate=sa.func.now())
+    sentiment_label = Column(String, nullable=True)
+
