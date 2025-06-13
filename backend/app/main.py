@@ -1,9 +1,11 @@
 from fastapi import FastAPI
-from .database import Base, engine
-from .api.v1.routes import feedback
 
-Base.metadata.create_all(bind=engine)
+from app.api.v1.routes import feedback
 
-app = FastAPI(title="SurveySmart.ai API")
+app = FastAPI()
 
-app.include_router(feedback.router)
+@app.get("/")
+def root():
+    return {"status": "SurveySmart.AI is running"}
+
+app.include_router(feedback.router, prefix="/api/v1/feedback")
