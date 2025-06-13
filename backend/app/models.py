@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 from .database import Base
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import JSON
 import uuid
 from sqlalchemy import Column, String, Text, DateTime, Integer
 from sqlalchemy.dialects.postgresql import ARRAY
@@ -15,7 +16,7 @@ class Feedback(Base):
     word_count = Column(Integer, nullable=True)
     language = Column(String, nullable=True)
     keywords = Column(ARRAY(String), nullable=True)
-    emotions = Column(String, nullable=True)
+    emotions = Column(JSON, nullable=True)
     user_id = Column(String, nullable=True)
     created_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=sa.func.now())
     updated_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=sa.func.now(), onupdate=sa.func.now())
