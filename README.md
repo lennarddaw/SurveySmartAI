@@ -23,7 +23,7 @@ An open-source, self-hosted AI-powered feedback platform for collecting, analyzi
 
 ```bash
 # Clone repo
-git clone https://github.com/<org>/SurveySmartAI.git
+git clone https://github.com/lennarddaw/SurveySmartAI.git
 cd SurveySmartAI
 
 # Backend
