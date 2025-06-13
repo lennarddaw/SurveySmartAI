@@ -4,6 +4,8 @@ from .services.sentiment import analyze_sentiment
 from .schemas import FeedbackCreate
 from app.utils.nlp_utils import analyze_sentiment
 from langdetect import detect
+from sklearn.feature_extraction.text import CountVectorizer
+import re
 
 def classify_sentiment(score: float) -> str:
     if score >= 0.66:
@@ -13,11 +15,18 @@ def classify_sentiment(score: float) -> str:
     else:
         return "neutral"
 
+def extract_keywords(text: str, top_n: int = 5) -> list[str]:
+    text = re.sub(r'[^\w\s]', '', text.lower())
+    vectorizer = CountVectorizer(stop_words='english', max_features=top_n)
+    X = vectorizer.fit_transform([text])
+    return vectorizer.get_feature_names_out().tolist()
+
 def create_feedback(db: Session, feedback: FeedbackCreate):
     sentiment = analyze_sentiment(feedback.raw_text)
     sentiment_label = classify_sentiment(sentiment)
     word_count = len(feedback.raw_text.split())
     language = detect(feedback.raw_text)
+    keywords = extract_keywords(feedback.raw_text)
 
     db_feedback = models.Feedback(
         channel=feedback.channel,
@@ -27,6 +36,7 @@ def create_feedback(db: Session, feedback: FeedbackCreate):
         sentiment_label=sentiment_label,
         word_count=word_count,
         language=language,
+        keywords=keywords,
     )
     db.add(db_feedback)
     db.commit()

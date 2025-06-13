@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 from datetime import datetime
 
@@ -18,6 +18,7 @@ class Feedback(BaseModel):
     user_id: Optional[str] = None
     word_count: Optional[int] = None
     language: Optional[str] = None
+    keywords: Optional[List[str]] = None
     created_at: datetime
     updated_at: datetime
 
