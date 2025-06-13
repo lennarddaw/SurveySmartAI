@@ -19,6 +19,7 @@ class Feedback(BaseModel):
     word_count: Optional[int] = None
     language: Optional[str] = None
     keywords: Optional[List[str]] = None
+    emotions: Optional[str] = None
     created_at: datetime
     updated_at: datetime
 

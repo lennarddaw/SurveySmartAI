@@ -2,6 +2,7 @@ from transformers import pipeline
 from keybert import KeyBERT
 
 sentiment_pipeline = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+emotion_pipeline = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", top_k=1)
 
 def analyze_sentiment(text: str) -> float:
     try:
@@ -19,8 +20,15 @@ def analyze_sentiment(text: str) -> float:
         print(f"Sentiment error: {e}")
         return 0.0
 
-# ✅ Keyword-Analyse
 kw_model = KeyBERT()
+
+def detect_emotion(text: str) -> str:
+    try:
+        result = emotion_pipeline(text)[0][0]  # top_k=1 liefert Liste mit einem Dict
+        return result["label"]
+    except Exception as e:
+        print(f"Emotion error: {e}")
+        return "unknown"
 
 def extract_keywords(text: str, top_n: int = 5) -> list[str]:
     try:

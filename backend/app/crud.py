@@ -6,6 +6,7 @@ from app.utils.nlp_utils import analyze_sentiment
 from langdetect import detect
 from sklearn.feature_extraction.text import CountVectorizer
 import re
+from app.utils.nlp_utils import detect_emotion
 
 def classify_sentiment(score: float) -> str:
     if score >= 0.66:
@@ -27,6 +28,7 @@ def create_feedback(db: Session, feedback: FeedbackCreate):
     word_count = len(feedback.raw_text.split())
     language = detect(feedback.raw_text)
     keywords = extract_keywords(feedback.raw_text)
+    emotions = detect_emotion(feedback.raw_text)
 
     db_feedback = models.Feedback(
         channel=feedback.channel,
@@ -37,6 +39,7 @@ def create_feedback(db: Session, feedback: FeedbackCreate):
         word_count=word_count,
         language=language,
         keywords=keywords,
+        emotions=emotions,
     )
     db.add(db_feedback)
     db.commit()

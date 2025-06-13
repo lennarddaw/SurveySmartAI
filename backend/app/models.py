@@ -15,6 +15,7 @@ class Feedback(Base):
     word_count = Column(Integer, nullable=True)
     language = Column(String, nullable=True)
     keywords = Column(ARRAY(String), nullable=True)
+    emotions = Column(String, nullable=True)
     user_id = Column(String, nullable=True)
     created_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=sa.func.now())
     updated_at = sa.Column(sa.TIMESTAMP(timezone=True), server_default=sa.func.now(), onupdate=sa.func.now())
