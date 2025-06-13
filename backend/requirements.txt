@@ -5,3 +5,13 @@ psycopg2-binary
 alembic
 pydantic
 textblob
+
+# NLP & KI
+transformers
+torch
+keybert
+scikit-learn
+sentence-transformers
+
+# optional
+python-dotenv
