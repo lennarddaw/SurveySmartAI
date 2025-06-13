@@ -2,13 +2,16 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from .services.sentiment import analyze_sentiment
 from .schemas import FeedbackCreate
+from app.utils.nlp_utils import analyze_sentiment
 
 
 def create_feedback(db: Session, feedback: FeedbackCreate):
+    sentiment = analyze_sentiment(feedback.raw_text)
     db_feedback = models.Feedback(
         channel=feedback.channel,
         raw_text=feedback.raw_text,
-        user_id=feedback.user_id
+        user_id=feedback.user_id,
+        sentiment_score=sentiment,
     )
     db.add(db_feedback)
     db.commit()
