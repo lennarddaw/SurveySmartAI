@@ -14,6 +14,7 @@ class Feedback(BaseModel):
     raw_text: str
     sentiment_score: Optional[float]
     status: str
+    user_id: Optional[str] = None
     created_at: datetime
     updated_at: datetime
 

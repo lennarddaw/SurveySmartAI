@@ -1,20 +1,19 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
-from .services.sentiment import analyze_sentiment  # Neu
+from .services.sentiment import analyze_sentiment
+from .schemas import FeedbackCreate
 
-def create_feedback(db: Session, fb: schemas.FeedbackCreate):
-    sentiment_score = analyze_sentiment(fb.raw_text)  # Neu
-    db_fb = models.Feedback(
-        channel=fb.channel,
-        raw_text=fb.raw_text,
-        sentiment_score=sentiment_score,  # Neu
-        user_id=fb.user_id,               # Optional: falls vorhanden
-        status="new"                      # Optional: Defaultwert
+
+def create_feedback(db: Session, feedback: FeedbackCreate):
+    db_feedback = models.Feedback(
+        channel=feedback.channel,
+        raw_text=feedback.raw_text,
+        user_id=feedback.user_id
     )
-    db.add(db_fb)
+    db.add(db_feedback)
     db.commit()
-    db.refresh(db_fb)
-    return db_fb
+    db.refresh(db_feedback)
+    return db_feedback
 
 def get_feedbacks(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Feedback).offset(skip).limit(limit).all()
