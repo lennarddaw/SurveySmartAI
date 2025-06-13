@@ -6,6 +6,7 @@ from datetime import datetime
 class FeedbackCreate(BaseModel):
     channel: str
     raw_text: str
+    user_id: Optional[str] = None
 
 class Feedback(BaseModel):
     id: UUID
